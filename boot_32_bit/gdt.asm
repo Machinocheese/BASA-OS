@@ -1,4 +1,5 @@
 ; GDT - Implementing "Basic Flat Model" - two overlapping segments of code and data
+; TL;DR: a struct for memory segments (eg. data, code)
 
 ;Some basic terms:
 ;Base = where code segment begins in physical memory
