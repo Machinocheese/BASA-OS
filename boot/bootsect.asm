@@ -12,11 +12,13 @@ KERNEL_OFFSET equ 0x1000
 	call switch_to_pm ; transitions to protected mode
 	jmp $
 
-%include "../boot_32_bit/load.asm"
-%include "../print/print_real.asm"
-%include "../print/print_pm.asm"
-%include "../boot_32_bit/switch_to_pm.asm"
-%include "../boot_32_bit/gdt.asm"
+;Linker's janky. Order of include matters at times.
+;Also need boot/ so nasm can compile from an outside folder.
+%include "boot/print_real.asm"
+%include "boot/print_pm.asm"
+%include "boot/switch_to_pm.asm"
+%include "boot/load.asm"
+%include "boot/gdt.asm"
 
 [bits 16]
 load_kernel:
