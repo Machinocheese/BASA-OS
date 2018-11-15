@@ -4,4 +4,7 @@ In a desperate attempt to overthrow the reign of the lord of knowledge Mr. Bubbl
 On a side note, this is an exploratory attempt into creating an OS, which classes haven't adequately covered enough.
 
 Current run command:
-```nasm -f bin boot_to_32.asm -o boot_to_32.bin && qemu-system-x86_64 boot_to_32.bin```
+```make```
+
+To clean up after compiling:
+```make clean```
