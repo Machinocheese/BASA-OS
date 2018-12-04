@@ -29,7 +29,7 @@ void main() {
 	// *video_mema = 'A';
 	// *video_memb = 'B';
 
-	print_custom("BASA-OS loaded\0", 0xb8a00);
+	print_at("BASA-OS loaded\0", 0xb8a00);
 	//print_vertical("V E R T I C A L\0", 0xb8680);
 
 	//Note to self - memory+0xa0 is in the same column
@@ -38,7 +38,7 @@ void main() {
 }
 
 //Custom print function that takes in a string str and prints it character by character starting from position pos
-void print_custom(char* str, int pos)
+void print_at(char* str, int pos)
 {
 	for (int x = 0; x < length(str); ++x)
 	{
