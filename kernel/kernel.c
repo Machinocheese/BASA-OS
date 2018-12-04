@@ -3,6 +3,7 @@ void dummy_test_entrypoint() {
 }
 
 void main() {
+	//I figured out exact screen positions with this commented out code
 	// char* video_memory = (char*) 0xb8000;
 	// *video_memory = '1';
 	// char* video_mem2 = (char*) 0xb80a0;
@@ -25,17 +26,18 @@ void main() {
 	// *video_mem8 = '8';
 	// *video_mem9 = '9';
 	// *video_mem0 = '0';
-	// *video_mema = 'A';	
+	// *video_mema = 'A';
 	// *video_memb = 'B';
 
 	print_custom("BASA-OS loaded\0", 0xb8a00);
+	//print_vertical("V E R T I C A L\0", 0xb8680);
 
-	//Not to self - memory+500 is in the same column
+	//Note to self - memory+0xa0 is in the same column
 	//Each row contains a0 characters
-
 
 }
 
+//Custom print function that takes in a string str and prints it character by character starting from position pos
 void print_custom(char* str, int pos)
 {
 	for (int x = 0; x < length(str); ++x)
@@ -45,6 +47,16 @@ void print_custom(char* str, int pos)
 	}
 }
 
+void print_vertical(char* str, int pos)
+{
+	for (int x = 0; x < length(str); ++x)
+	{
+		char* temp_mem = (char*) pos + 0xa0*x;
+		*temp_mem = str[x];
+	}
+}
+
+//String length function
 int length(char* str)
 {
 	int x = 0;
