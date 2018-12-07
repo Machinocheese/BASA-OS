@@ -11,17 +11,43 @@ unsigned short port_word_in(unsigned short port);
 void port_word_out(unsigned short port, unsigned short data);
 
 void main() {
-	//Indexing for screen position:
-	//Top left of the screen is position 0xb8000
-	//Every odd bit controls the color of the previous position
-	//Color codes for VGA can be found here: http://www.osdever.net/bkerndev/Docs/printing.htm
+	//I figured out exact screen positions with this commented out code
+	// char* video_memory = (char*) 0xb8000;
+	// *video_memory = '1';
+	// char* video_mem2 = (char*) 0xb80a0;
+	// *video_mem2 = '2';
+	// char* video_mem3 = (char*) 0xb8100;
+	// char* video_mem4 = (char*) 0xb8150;
+	// char* video_mem5 = (char*) 0xb8200;
+	// char* video_mem6 = (char*) 0xb8250;
+	// char* video_mem7 = (char*) 0xb8300;
+	// char* video_mem8 = (char*) 0xb8350;
+	// char* video_mem9 = (char*) 0xb8400;
+	// char* video_mem0 = (char*) 0xb8450;
+	// char* video_mema = (char*) 0xb8500;
+	// char* video_memb = (char*) 0xb8550;
+	// *video_mem3 = '3';
+	// *video_mem4 = '4';
+	// *video_mem5 = '5';
+	// *video_mem6 = '6';
+	// *video_mem7 = '7';
+	// *video_mem8 = '8';
+	// *video_mem9 = '9';
+	// *video_mem0 = '0';
+	// *video_mema = 'A';
+	// *video_memb = 'B';
+
+	//print_at("BASA-OS loaded\0", 0xb8a00);
+	//print_vertical("V E R T I C A L\0", 0xb8680);
 
 	//Note to self - memory+0xa0 is in the same column
 	//Each row contains a0 characters
-	
-	//VGA ports 0x3d4 and 0x3d5 handle cursor data
+
+
+	//VGA testing
+	//ports 0x3d4 and 0x3d5 handle cursor data
 	//14 contains the high byte and 15 contains the low byte for cursor position
-	//Example usage of the ports:
+	
 	port_byte_out(0x3d4, 14);
 	int position = port_byte_in(0x3d5);
 	position = position << 8;		//High byte needs to be shifted
@@ -32,8 +58,20 @@ void main() {
 	int offset_from_vga = position*2;
 	char* vga = 0xb8000;
 	vga[offset_from_vga] = 'X';
-	//This bit controls the color of the bit just printed
 	vga[offset_from_vga+1] = 0x0f;
+
+	port_byte_out(0x3d4, 14);
+	//int position = port_byte_in(0x3d5)
+	position = port_byte_in(0x3d5);
+	position = position << 8;		//High byte needs to be shifted
+	port_byte_out(0x3d4, 15);
+	position += port_byte_in(0x3d5);//Low byte just needs to be added
+	
+	//position now contains the cursor byte location
+	offset_from_vga = position*2;
+	//char* vga = 0xb8000;
+	vga[offset_from_vga+2] = 'Y';
+	vga[offset_from_vga+3] = 0x12;
 
 }
 
