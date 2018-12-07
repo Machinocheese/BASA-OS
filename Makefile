@@ -1,6 +1,10 @@
 # $@ = target
 # $< = first dependency
 # $^ = all dependencies
+C_SOURCES = $(wildcard kernel/*.c drivers/*.c)
+HEADERS = $(wildcard kernel/*.h drivers/*.h)
+# Nice syntax for file extension replacement
+OBJ = ${C_SOURCES:.c=.o}
 
 linker = /usr/local/i386elfgcc/bin/i386-elf-ld
 gcc = /usr/local/i386elfgcc/bin/i386-elf-gcc
@@ -32,6 +36,18 @@ debug: os-image.bin kernel.elf
 	$(qemu) -fda $<
 	$(GDB) -ex "target remote localhost:1234" -ex "symbol-file kernel.elf"
 		
+# Generic rules for wildcards
+# To make an object, always compile from its .c
+%.o: %.c ${HEADERS}
+	${CC} ${CFLAGS} -ffreestanding -c $< -o $@
+
+%.o: %.asm
+	nasm $< -f elf -o $@
+
+%.bin: %.asm
+	nasm $< -f bin -o $@
+
+
 
 clean:
 	rm *.bin *.o
