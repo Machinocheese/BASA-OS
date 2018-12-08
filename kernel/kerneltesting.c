@@ -114,6 +114,28 @@ void print_at(char* str, int pos)
 	}
 }
 
+//Custom print function that takes in a string str, screen position pos, and a color code and prints it at pos
+//Ex usage: print_at_color("BASA-OS", 0xb8a00, 0x0f)
+//For color codes: First bit is background color, second is foreground color
+//eg. 0x0f is white text on black background
+//VGA color codes: http://www.osdever.net/bkerndev/Docs/printing.htm
+//0 - Black
+//1 - Blue
+//2 - Green
+//4 - Red
+//5 - Magenta
+//e - Yellow
+//f - White
+void print_at_color(char* str, int pos, unsigned short color)
+{
+	char* vga = pos;
+	for (int x = 0; x < length(str); ++x)
+	{
+		vga[2*x] = str[x];
+		vga[2*x+1] = color;
+	}
+}
+
 void print_vertical(char* str, int pos)
 {
 	for (int x = 0; x < length(str); ++x)

@@ -28,13 +28,9 @@ void main() {
 	port_byte_out(0x3d4, 15);
 	position += port_byte_in(0x3d5);//Low byte just needs to be added
 	
-	//position now contains the cursor byte location
-	int offset_from_vga = position*2;
-	char* vga = 0xb8000;
-	vga[offset_from_vga] = 'X';
-	//This bit controls the color of the bit just printed
-	vga[offset_from_vga+1] = 0x0f;
-
+	//Example of the finalized print functionality
+	//2 important print functions: print_at(String, Position), print_at_color(String, Position, VGA Color Code)
+	print_at_color("BASA-OS", 0xb8a00, 0x02);
 }
 
 int length(char* str);
@@ -73,6 +69,28 @@ void print_at(char* str, int pos)
 	{
 		char* temp_mem = (char*) pos + 0x2*x;
 		*temp_mem = str[x];
+	}
+}
+
+//Custom print function that takes in a string str, screen position pos, and a color code and prints it at pos
+//Ex usage: print_at_color("BASA-OS", 0xb8a00, 0x0f)
+//For color codes: First bit is background color, second is foreground color
+//eg. 0x0f is white text on black background
+//VGA color codes: http://www.osdever.net/bkerndev/Docs/printing.htm
+//0 - Black
+//1 - Blue
+//2 - Green
+//4 - Red
+//5 - Magenta
+//e - Yellow
+//f - White
+void print_at_color(char* str, int pos, unsigned short color)
+{
+	char* vga = pos;
+	for (int x = 0; x < length(str); ++x)
+	{
+		vga[2*x] = str[x];
+		vga[2*x+1] = color;
 	}
 }
 
