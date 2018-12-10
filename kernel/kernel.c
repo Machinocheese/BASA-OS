@@ -1,14 +1,15 @@
-//#include "../drivers/ports.h"
+#include "../drivers/ports.h"
+#include "../drivers/screen.h"
 /* force to create kernel entry function */
 void dummy_test_entrypoint() {
 }
 
 //vga ports header file
 //Placed here instead of in a header file for compilation reasons
-unsigned char port_byte_in(unsigned short port);
-void port_byte_out(unsigned short port, unsigned char data);
-unsigned short port_word_in(unsigned short port);
-void port_word_out(unsigned short port, unsigned short data);
+//unsigned char port_byte_in(unsigned short port);
+//void port_byte_out(unsigned short port, unsigned char data);
+//unsigned short port_word_in(unsigned short port);
+//void port_word_out(unsigned short port, unsigned short data);
 
 void main() {
 	//Indexing for screen position:
@@ -30,7 +31,7 @@ void main() {
 	
 	//Example of the finalized print functionality
 	//2 important print functions: print_at(String, Position), print_at_color(String, Position, VGA Color Code)
-	print_at_color("BASA-OS", 0xb8a00, 0x02);
+	print_at_color("BASA-OS", 0xb8a00, GREEN);
 }
 
 int length(char* str);
