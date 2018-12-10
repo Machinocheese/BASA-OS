@@ -23,15 +23,15 @@ void main() {
 	//VGA ports 0x3d4 and 0x3d5 handle cursor data
 	//14 contains the high byte and 15 contains the low byte for cursor position
 	//Example usage of the ports:
-	port_byte_out(0x3d4, 14);
-	int position = port_byte_in(0x3d5);
+	port_byte_out(REG_SCREEN_CTRL, 14);
+	int position = port_byte_in(REG_SCREEN_DATA);
 	position = position << 8;		//High byte needs to be shifted
-	port_byte_out(0x3d4, 15);
-	position += port_byte_in(0x3d5);//Low byte just needs to be added
+	port_byte_out(REG_SCREEN_CTRL, 15);
+	position += port_byte_in(REG_SCREEN_DATA);//Low byte just needs to be added
 	
 	//Example of the finalized print functionality
 	//2 important print functions: print_at(String, Position), print_at_color(String, Position, VGA Color Code)
-	print_at_color("BASA-OS", 0xb8a00, GREEN);
+	print_at_color("BASA-OS", VIDEO_ADDRESS+0xa00, GREEN);
 }
 
 int length(char* str);
